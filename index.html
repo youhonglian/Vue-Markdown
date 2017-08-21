@@ -57,6 +57,7 @@
     </div>
     <script src="https://unpkg.com/marked@0.3.6"></script>
     <script src="https://unpkg.com/vue@2.4.2/dist/vue.js"></script>
+    <script src="https://unpkg.com/lodash@4.16.0"></script>
     <script>
         let vm = new Vue({
             el: '#editor',
@@ -64,11 +65,12 @@
                 input: '# 你好'
             },
             methods: {
-                update(e) {
-                    this.input = e.target.value
-                }
+               //节流
+              update: _.debounce(function(e) {
+                        this.input = e.target.value
+                    }, 300)
             },
-            computed: {
+            computed: {        
                 compiledMarkdown: function () {
                     return marked(this.input, {
                         sanitize: true
